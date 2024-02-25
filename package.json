@@ -1,0 +1,28 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client.js",
+  "scripts": {
+    "start": "node client.js",
+    "dev": "nodemon client.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@twurple/api": "^7.0.8",
+    "@twurple/auth": "^7.0.8",
+    "@twurple/chat": "^7.0.8",
+    "better-sqlite3": "^9.4.1",
+    "express": "^4.18.2",
+    "socket.io": "^4.7.4"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.2",
+    "pino": "^8.19.0",
+    "pino-pretty": "^10.3.1",
+    "prettier": "^3.2.5"
+  }
+}

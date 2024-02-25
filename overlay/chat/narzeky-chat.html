@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<!-- item will be appened to this layout -->
+<div class="sl__chat__layout" id="log">
+</div>
+
+<!-- chat item -->
+<script id="chatlist_item" type="text/template">
+  <div data-from="{from}" data-id="{messageId}" style="color: {color}">
+    <div class="chatbox-container" id="{messageId}-container">
+      <div class="meta">
+        <span class="name" id="{messageId}-author">{from}</span>
+        <span class="badges"></span>
+      </div>
+      <div class="message" id="{messageId}-msg">
+        {message}
+      </div>
+    </div>
+  </div>
+</script>
+</body>
+</html>
