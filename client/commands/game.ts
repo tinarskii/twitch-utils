@@ -19,6 +19,7 @@ export default {
     meta: {
       user: string;
       channel: string;
+      channelID: string
       userID: string;
       commands: CommandList;
     },
@@ -33,8 +34,7 @@ export default {
     }
 
     // Get channel ID
-    let channelID = (await client.api.users.getUserByName(meta.channel))!.id;
-    await client.api.channels.updateChannelInfo(channelID, {
+    await client.api.channels.updateChannelInfo(meta.channelID, {
       gameId: game.id,
     });
 

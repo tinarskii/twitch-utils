@@ -58,7 +58,7 @@
   </style>
   <script src="/socket.io/socket.io.js"></script>
   <script>
-    const socket = io("http://localhost:8081");
+    const socket = io("http://localhost:3001");
     socket.on("feed", (data) => {
       const feedlist = document.querySelector(".feedlist");
       const feed = document.createElement("div");

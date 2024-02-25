@@ -53,3 +53,8 @@ export function initAccount(userID: string | number) {
     stmt.run(userID, 0);
   }
 }
+
+export function checkNickname(userID: string | number) {
+  let stmt = db.prepare("SELECT nickname FROM users WHERE user = ?");
+  return stmt.get(userID)?.nickname || null;
+}

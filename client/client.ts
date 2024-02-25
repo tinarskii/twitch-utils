@@ -6,7 +6,7 @@ import { readdirSync } from "fs";
 import pino from "pino";
 import { io } from "../server/server";
 import { join } from "node:path";
-import { isTwitchTokenValid, refreshToken } from "../helpers/twitch";
+import {checkNickname, isTwitchTokenValid, refreshToken} from "../helpers/twitch";
 
 if (
   !process.env.REFRESH_TOKEN ||
@@ -36,15 +36,12 @@ export interface CommandList
       args?: Array<{ name: string; description: string; required: boolean }>;
       modsOnly?: boolean;
       execute: (
-        client: {
-          chat: ChatClient;
-          io: any;
-          api: ApiClient;
-        },
+        client: { chat: ChatClient; io: any; api: ApiClient },
         meta: {
-          user: string;
           channel: string;
+          user: string;
           userID: string;
+          channelID: string;
           commands: CommandList;
         },
         message: string,
@@ -95,9 +92,9 @@ export async function createListener() {
   });
 
   // On Message Receive
-  chatClient.onMessage(async (channel, user, message) => {
-    let userID = (await apiClient.users.getUserByName(user))!.id;
-    let channelID = (await apiClient.users.getUserByName(channel))!.id;
+  chatClient.onMessage(async (channel, user, message, msgObj) => {
+    let userID = msgObj.userInfo.userId!;
+    let channelID = msgObj.channelId!;
     let args = message.split(" ").splice(1);
 
     // Check if message is a command
@@ -140,7 +137,7 @@ export async function createListener() {
         try {
           command.execute(
             { chat: chatClient, api: apiClient, io },
-            { channel, user, userID, commands },
+            { channel, channelID, user, userID, commands },
             message,
             args,
           );
@@ -149,17 +146,14 @@ export async function createListener() {
         }
       }
     } else {
-      let [broadcaster, mods, vip, subs] = await Promise.all([
-        user === channel,
-        apiClient.moderation.checkUserMod(channelID, userID),
-        apiClient.channels.checkVipForUser(channelID, userID),
-        apiClient.subscriptions.getSubscriptionForUser(channelID, userID),
-      ]);
-
+      console.log(msgObj.userInfo.badgeInfo, msgObj.userInfo.badges)
+      // Check user's nickname
+      let nickname = checkNickname(userID);
       io.emit("message", {
-        from: user,
-        message,
-        role: broadcaster ? "broadcaster" : mods ? "mod" : vip ? "vip" : subs ? "sub" : "normal",
+        from: nickname ? `${user} (${nickname})` : user,
+        message: message,
+        user: msgObj.userInfo,
+        id: msgObj.id
       });
     }
   });

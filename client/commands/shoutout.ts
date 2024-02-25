@@ -18,6 +18,7 @@ export default {
     meta: {
       user: string;
       channel: string;
+      channelID: string
       userID: string;
       commands: CommandList;
     },
@@ -25,7 +26,6 @@ export default {
     args: Array<string>,
   ) => {
     let userID = (await client.api.users.getUserByName(args[0]))?.id;
-    let channelID = (await client.api.users.getUserByName(meta.channel))!.id;
 
     if (!userID) {
       await client.chat.say(meta.channel, `ไม่พบผู้ใช้ ${args[0]}`);
@@ -33,7 +33,7 @@ export default {
     }
 
     try {
-      await client.api.chat.shoutoutUser(channelID, userID);
+      await client.api.chat.shoutoutUser(meta.channelID, userID);
     } catch (e) {
       await client.chat.say(meta.channel, `ไม่สามารถ shoutout ได้`);
       return;

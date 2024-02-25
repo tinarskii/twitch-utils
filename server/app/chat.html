@@ -111,15 +111,17 @@
 </script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    const socket = io("http://localhost:8081");
+    const socket = io("http://localhost:3001");
     socket.on("message", (data) => {
     const log = document.getElementById("log");
         const chat = document.createElement("div");
+      console.log(data.user.isBroadcaster)
+        let role = data.user.isBroadcaster ? "broadcaster" : data.user.isMod ? "mod" : data.user.isVip ? "vip" : data.user.isSubscriber ? "sub" : "normal";
         chat.innerHTML = document.getElementById("chatlist_item").innerHTML
             .replace(/{from}/g, data.from)
-            .replace(/{messageId}/g, Math.random().toString(36).substr(2, 9))
+            .replace(/{messageId}/g, data.id)
             .replace(/{message}/g, data.message)
-            .replace(/{role}/g, data.role);
+            .replace(/{role}/g, role);
         log.appendChild(chat);
     });
 </script>

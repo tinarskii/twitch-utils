@@ -19,8 +19,8 @@ io.on("connection", (socket: Socket) => {
   });
 });
 
-httpServer.listen(8081, () => {
-  logger.info("[Socket.IO] Running on port 8081");
+httpServer.listen(3001, () => {
+  logger.info("[Socket.IO] Running on port 3001");
 });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
