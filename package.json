@@ -1,28 +1,51 @@
 {
-  "name": "bot",
+  "name": "twitch-utils",
   "version": "1.0.0",
-  "description": "",
-  "main": "client.js",
+  "description": "Collection of utilities for Twitch chat and API",
+  "main": "index.ts",
   "scripts": {
-    "start": "node client.js",
-    "dev": "nodemon client.js"
+    "start": "bun index.ts",
+    "start:watch": "bun index.ts --watch",
+    "build": "tsc -p . && cp .env dist",
+    "build:watch": "tsc -p . --watch",
+    "dev": "conc --kill-others \"bun run build:watch\" \"bun run start:watch\"",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "prettier": "prettier --write src/**/*.{js,ts}",
+    "prettier:check": "prettier --check src/**/*.{js,ts}"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
+  "keywords": [
+    "twitch-bot"
+  ],
+  "authors": [
+    "Tinnaphat Somsang <tinvv@outlook.co.th>"
+  ],
+  "license": "MPL-2.0",
   "type": "module",
   "dependencies": {
     "@twurple/api": "^7.0.8",
     "@twurple/auth": "^7.0.8",
     "@twurple/chat": "^7.0.8",
+    "@types/better-sqlite3": "^7.6.9",
     "better-sqlite3": "^9.4.1",
+    "elysia": "^0.8.17",
     "express": "^4.18.2",
+    "fastify": "^4.26.1",
     "socket.io": "^4.7.4"
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
     "dotenv": "^16.4.2",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^43.0.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-promise": "^6.0.0",
     "pino": "^8.19.0",
     "pino-pretty": "^10.3.1",
-    "prettier": "^3.2.5"
+    "prettier": "^3.2.5",
+    "typescript": "^5.3.3"
   }
 }

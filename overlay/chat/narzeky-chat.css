@@ -75,7 +75,11 @@ html {
     z-index: 5;
 }
 
-#log>div {
-    animation: fadeInRight .75s ease forwards, fadeOutRight 0.75s ease {message_hide_delay} forwards;
-    -webkit-animation: fadeInRight .75s ease forwards, fadeOutRight 0.75s ease {message_hide_delay} forwards;
+#log > div {
+    animation: fadeInRight .75s ease forwards, fadeOutRight 0.75s ease {
+    message_hide_delay
+} forwards;
+    -webkit-animation: fadeInRight .75s ease forwards, fadeOutRight 0.75s ease {
+    message_hide_delay
+} forwards;
 }

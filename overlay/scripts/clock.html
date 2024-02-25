@@ -2,36 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Clock</title>
   <style>
-     @import url('https://fonts.googleapis.com/css2?family=Germania+One&display=swap');
-     #current_time { 
-      font-size: 200px;
-      font-family: 'Germania One', monospace;
-      line-height: 0%;
-      color: white;
-    }
-    #current_sec { 
-      font-size: 100px;
-      font-family: 'Germania One', monospace;
-      color:white;
-    }
-    .text_group {
-      display: flex;
+      @import url('https://fonts.googleapis.com/css2?family=Germania+One&display=swap');
 
-    }
+      #current_time {
+          font-size: 200px;
+          font-family: 'Germania One', monospace;
+          line-height: 0%;
+          color: white;
+      }
+
+      #current_sec {
+          font-size: 100px;
+          font-family: 'Germania One', monospace;
+          color: white;
+      }
+
+      .text_group {
+          display: flex;
+
+      }
   </style>
 </head>
 <body>
-  <div class="text_group">
-    <p id="current_time"></p>
-    <p id="current_sec"></p>
-  </div>
+<div class="text_group">
+  <p id="current_time"></p>
+  <p id="current_sec"></p>
+</div>
 </body>
 <script>
-  let h,m,s;
+  let h, m, s;
   setInterval(() => {
     let date = new Date()
     h = date.getHours();

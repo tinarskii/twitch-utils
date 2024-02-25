@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="user" uuid="d005c874-5440-4e98-93aa-eae65c748734">
+    <data-source source="LOCAL" name="bot-data.sqlite" uuid="98b752fa-c2a9-4376-a655-7cdc79805278">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\tinar\WebstormProjects\twitch-utils\user.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\tinar\WebstormProjects\twitch-utils\bot-data.sqlite</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>
@@ -13,11 +13,11 @@
         </library>
       </libraries>
     </data-source>
-    <data-source source="LOCAL" name="user [2]" uuid="e25d81ca-2ff1-498a-8c24-2f7dd9d8336e">
+    <data-source source="LOCAL" name="data" uuid="97ecece2-8167-4932-91cf-b333793d3c62">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\tinar\WebstormProjects\twitch-utils\bot\user.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\tinar\WebstormProjects\twitch-utils\data.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>
