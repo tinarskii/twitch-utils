@@ -70,6 +70,9 @@ export async function createListener() {
       "moderator:manage:shoutouts",
       "channel:manage:moderators",
       "channel:manage:broadcast",
+      "channel:read:vips",
+      "channel:read:subscriptions",
+      "channel:manage:vips",
     ],
   );
 
@@ -94,6 +97,7 @@ export async function createListener() {
   // On Message Receive
   chatClient.onMessage(async (channel, user, message) => {
     let userID = (await apiClient.users.getUserByName(user))!.id;
+    let channelID = (await apiClient.users.getUserByName(channel))!.id;
     let args = message.split(" ").splice(1);
 
     // Check if message is a command
@@ -109,7 +113,6 @@ export async function createListener() {
       // Check if command is only for mods
       let command = commands.get(commandName)!;
       if (command?.modsOnly) {
-        let channelID = (await apiClient.users.getUserByName(channel))!.id;
         let mods = await apiClient.moderation.checkUserMod(channelID, userID);
         if (!mods && userID !== channelID) {
           await chatClient.say(channel, `แกไม่มีสิทธิ!!!!!!!!!!!!`);
@@ -146,10 +149,17 @@ export async function createListener() {
         }
       }
     } else {
-      // Emit message to socket.io
+      let [broadcaster, mods, vip, subs] = await Promise.all([
+        user === channel,
+        apiClient.moderation.checkUserMod(channelID, userID),
+        apiClient.channels.checkVipForUser(channelID, userID),
+        apiClient.subscriptions.getSubscriptionForUser(channelID, userID),
+      ]);
+
       io.emit("message", {
-        user,
+        from: user,
         message,
+        role: broadcaster ? "broadcaster" : mods ? "mod" : vip ? "vip" : subs ? "sub" : "normal",
       });
     }
   });

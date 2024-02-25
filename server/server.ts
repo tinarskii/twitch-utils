@@ -53,6 +53,10 @@ app.get("/api/commands", () => {
 app.get("/feed", () => {
   return Bun.file(__dirname + "/app/feed.html");
 });
+app.get("/chat", () => {
+  return Bun.file(__dirname + "/app/chat.html");
+});
+
 app.get("/socket.io/socket.io.js", () => {
   return Bun.file("./node_modules/socket.io/client-dist/socket.io.js");
 });

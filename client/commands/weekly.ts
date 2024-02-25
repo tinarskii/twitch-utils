@@ -6,7 +6,7 @@ import { initAccount } from "../../helpers/twitch";
 
 export default {
   name: "weekly",
-  description: "Give weekly money (500 Keeb)",
+  description: "Give weekly money (750 Keeb)",
   alias: [],
   args: [],
   execute: async (
@@ -41,7 +41,7 @@ export default {
     }
 
     // Claim weekly (Add money, Update lastWeekly)
-    stmt = db.prepare("UPDATE users SET money = money + 500 WHERE user = ?");
+    stmt = db.prepare("UPDATE users SET money = money + 750 WHERE user = ?");
     stmt.run(meta.userID);
     stmt = db.prepare("UPDATE users SET lastWeekly = ? WHERE user = ?");
     stmt.run(Number(new Date()), meta.userID);
@@ -50,8 +50,8 @@ export default {
       type: "normal",
       icon: "☀️",
       message: `System ➡ ${meta.user}`,
-      action: `+ 500 KEEB`,
+      action: `+750 KEEB`,
     });
-    await client.chat.say(meta.channel, `รับ 500 กีบ`);
+    await client.chat.say(meta.channel, `รับ 750 กีบ`);
   },
 };
