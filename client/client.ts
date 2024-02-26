@@ -107,8 +107,10 @@ export async function createListener() {
           break;
         }
       }
-      // Check if command is only for mods
       let command = commands.get(commandName)!;
+      if (!command) return;
+
+      // Check if user is a mod
       if (command?.modsOnly) {
         let mods = await apiClient.moderation.checkUserMod(channelID, userID);
         if (!mods && userID !== channelID) {
