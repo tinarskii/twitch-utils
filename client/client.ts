@@ -15,6 +15,7 @@ import {
   isTwitchTokenValid,
   refreshToken,
 } from "../helpers/twitch";
+import * as process from "process";
 
 if (
   !process.env.REFRESH_TOKEN ||
@@ -82,7 +83,7 @@ export async function createListener() {
   );
 
   const apiClient = new ApiClient({ authProvider });
-  const chatClient = new ChatClient({ authProvider, channels: ["tinarskii"] });
+  const chatClient = new ChatClient({ authProvider, channels: [process.env.TW_CHANNEL ?? "tinarskii"] });
   chatClient.connect();
 
   // On Bot Connect
