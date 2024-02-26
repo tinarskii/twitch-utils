@@ -18,14 +18,16 @@ export default {
     meta: {
       user: string;
       channel: string;
-      channelID: string
+      channelID: string;
       userID: string;
       commands: CommandList;
     },
     args: Array<string>,
   ) => {
     try {
-      await client.api.chat.sendAnnouncement(meta.channelID, { message: args.join(" ") });
+      await client.api.chat.sendAnnouncement(meta.channelID, {
+        message: args.join(" "),
+      });
     } catch (e) {
       await client.chat.say(meta.channel, `ไม่สามารถ announce ได้`);
       return;

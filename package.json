@@ -28,6 +28,7 @@
     "@twurple/chat": "^7.0.8",
     "@types/better-sqlite3": "^7.6.9",
     "better-sqlite3": "^9.4.1",
+    "cors": "^2.8.5",
     "elysia": "^0.8.17",
     "express": "^4.18.2",
     "fastify": "^4.26.1",

@@ -5,14 +5,17 @@ import { db } from "../helpers/database";
 import { commands, logger } from "../client/client";
 import { createServer } from "node:http";
 import { Server, Socket } from "socket.io";
+import cors from "cors";
 
 const httpServer = createServer();
+httpServer.on("request", cors());
 export const io = new Server(httpServer, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
   },
 });
+
 io.on("connection", (socket: Socket) => {
   logger.info(`[Socket] ${socket.id} connected`);
   socket.on("disconnect", () => {

@@ -99,7 +99,7 @@
 <script id="chatlist_item" type="text/template">
   <div data-from="{from}" data-id="{messageId}">
     <div class="chatbox-container {role}" id="{messageId}-container">
-      <div class="meta">
+      <div class="meta" style="color: {color}">
         <span class="name" id="{messageId}-author">{from}</span>
         <span class="badges"></span>
       </div>
@@ -113,15 +113,23 @@
 <script>
     const socket = io("http://localhost:3001");
     socket.on("message", (data) => {
-    const log = document.getElementById("log");
+        const log = document.getElementById("log");
         const chat = document.createElement("div");
-      console.log(data.user.isBroadcaster)
-        let role = data.user.isBroadcaster ? "broadcaster" : data.user.isMod ? "mod" : data.user.isVip ? "vip" : data.user.isSubscriber ? "sub" : "normal";
         chat.innerHTML = document.getElementById("chatlist_item").innerHTML
             .replace(/{from}/g, data.from)
             .replace(/{messageId}/g, data.id)
             .replace(/{message}/g, data.message)
-            .replace(/{role}/g, role);
+            .replace(/{role}/g, data.role)
+            .replace(/{color}/g, data.color);
+        chat.querySelector(".chatbox-container").style.borderColor = data.color;
+        if (data.badges) {
+            const badges = chat.querySelector(".badges");
+            data.badges.forEach((badge) => {
+                const img = document.createElement("img");
+                img.src = badge;
+                badges.appendChild(img);
+            });
+        }
         log.appendChild(chat);
     });
 </script>

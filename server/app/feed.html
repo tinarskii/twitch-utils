@@ -58,18 +58,18 @@
   </style>
   <script src="/socket.io/socket.io.js"></script>
   <script>
-    const socket = io("http://localhost:3001");
-    socket.on("feed", (data) => {
-      const feedlist = document.querySelector(".feedlist");
-      const feed = document.createElement("div");
-      feed.classList.add("feed-container", data.type);
-      feed.innerHTML = `
+      const socket = io("http://localhost:3001");
+      socket.on("feed", (data) => {
+          const feedlist = document.querySelector(".feedlist");
+          const feed = document.createElement("div");
+          feed.classList.add("feed-container", data.type);
+          feed.innerHTML = `
         <h1>${data.icon}</h1>
         <h1 style="text-align: start">${data.message}</h1>
         <h1 style="text-align: end">${data.action}</h1>
       `;
-      feedlist.appendChild(feed);
-    });
+          feedlist.appendChild(feed);
+      });
   </script>
 </head>
 <body>

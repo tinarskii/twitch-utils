@@ -1,12 +1,20 @@
 import "dotenv/config";
 import { StaticAuthProvider } from "@twurple/auth";
-import { ChatClient } from "@twurple/chat";
+import {
+  buildEmoteImageUrl,
+  ChatClient,
+  parseEmotePositions,
+} from "@twurple/chat";
 import { ApiClient } from "@twurple/api";
 import { readdirSync } from "fs";
 import pino from "pino";
 import { io } from "../server/server";
 import { join } from "node:path";
-import {checkNickname, isTwitchTokenValid, refreshToken} from "../helpers/twitch";
+import {
+  checkNickname,
+  isTwitchTokenValid,
+  refreshToken,
+} from "../helpers/twitch";
 
 if (
   !process.env.REFRESH_TOKEN ||
@@ -148,14 +156,55 @@ export async function createListener() {
         }
       }
     } else {
-      console.log(msgObj.userInfo.badgeInfo, msgObj.userInfo.badges)
-      // Check user's nickname
+      // Get user nickname & role
       let nickname = checkNickname(userID);
+      let role = msgObj.userInfo.isBroadcaster
+        ? "broadcaster"
+        : msgObj.userInfo.isMod
+          ? "mod"
+          : msgObj.userInfo.isVip
+            ? "vip"
+            : msgObj.userInfo.isSubscriber
+              ? "sub"
+              : "normal";
+
+      // Parse emotes
+      let newMessage = message,
+        emoteList = parseEmotePositions(message, msgObj.emoteOffsets);
+      for (let emote of emoteList) {
+        let emoteID = emote.id;
+        let emoteUrl = buildEmoteImageUrl(emoteID, { size: "3.0" });
+        newMessage = newMessage.replace(
+          emote.name,
+          `<img src="${emoteUrl}" alt="emote" /> `,
+        );
+      }
+
+      // Get user badges
+      let badgeList: Array<string> = [];
+      let gBadges = await apiClient.chat.getGlobalBadges();
+      let gBadgeTitles = gBadges.map((badge) => {
+        return {
+          title: badge.getVersion("1")?.title,
+          link: badge.getVersion("1")?.getImageUrl(4),
+        };
+      });
+      [...msgObj.userInfo.badges.keys()].forEach((badge) => {
+        let badgeTitle = gBadgeTitles.find(
+          (b) => b.title?.toLowerCase().split(" ").join("-") === badge,
+        );
+        if (badgeTitle) {
+          badgeList.push(badgeTitle.link ?? "");
+        }
+      });
       io.emit("message", {
         from: nickname ? `${user} (${nickname})` : user,
-        message: message,
+        message: newMessage,
         user: msgObj.userInfo,
-        id: msgObj.id
+        id: msgObj.id,
+        role: role,
+        color: msgObj.userInfo.color,
+        badges: badgeList,
       });
     }
   });

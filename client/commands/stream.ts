@@ -19,7 +19,7 @@ export default {
     meta: {
       user: string;
       channel: string;
-      channelID: string
+      channelID: string;
       userID: string;
       commands: CommandList;
     },
