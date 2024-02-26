@@ -10,6 +10,7 @@ const httpServer = createServer();
 export const io = new Server(httpServer, {
   cors: {
     origin: "*",
+    methods: ["GET", "POST"]
   },
 });
 io.on("connection", (socket: Socket) => {
@@ -61,6 +62,6 @@ app.get("/socket.io/socket.io.js", () => {
   return Bun.file("./node_modules/socket.io/client-dist/socket.io.js");
 });
 
-app.listen(3000, () => {
-  logger.info("[Elysia] Running on port 3000");
+app.listen(80, () => {
+  logger.info("[Elysia] Running on port 80");
 });
