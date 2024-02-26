@@ -10,7 +10,7 @@ const httpServer = createServer();
 export const io = new Server(httpServer, {
   cors: {
     origin: "*",
-    methods: ["GET", "POST"]
+    methods: ["GET", "POST"],
   },
 });
 io.on("connection", (socket: Socket) => {
@@ -62,6 +62,15 @@ app.get("/socket.io/socket.io.js", () => {
   return Bun.file("./node_modules/socket.io/client-dist/socket.io.js");
 });
 
-app.listen(80, () => {
-  logger.info("[Elysia] Running on port 80");
-});
+app.listen(
+  {
+    port: process.env.PORT ?? 3000,
+    // tls: {
+    //   cert: Bun.file(...),
+    //   key: Bun.file(...),
+    // },
+  },
+  ({ hostname, port }) => {
+    logger.info(`[Elysia] Running on http://${hostname}:${port}`);
+  },
+);
