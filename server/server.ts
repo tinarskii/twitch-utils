@@ -5,18 +5,22 @@ import { db } from "../helpers/database";
 import { commands, logger } from "../client/client";
 import { createServer } from "node:http";
 import { Server, Socket } from "socket.io";
+import express from "express";
 import cors from "cors";
 
-const httpServer = createServer();
-httpServer.on("request", cors({
-  origin: "*",
-  methods: ["GET", "POST"],
-}));
-export const io = new Server(httpServer, {
+const expressApp = express();
+expressApp.use(cors());
+
+const server = createServer(expressApp);
+export const io = new Server(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
   },
+});
+
+server.listen(3001, () => {
+  logger.info("[Socket.IO] Running on http://localhost:3001");
 });
 
 io.on("connection", (socket: Socket) => {
@@ -24,10 +28,6 @@ io.on("connection", (socket: Socket) => {
   socket.on("disconnect", () => {
     logger.info(`[Socket] ${socket.id} disconnected`);
   });
-});
-
-httpServer.listen(3001, () => {
-  logger.info("[Socket.IO] Running on port 3001");
 });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
