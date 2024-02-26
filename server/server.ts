@@ -8,7 +8,10 @@ import { Server, Socket } from "socket.io";
 import cors from "cors";
 
 const httpServer = createServer();
-httpServer.on("request", cors());
+httpServer.on("request", cors({
+  origin: "*",
+  methods: ["GET", "POST"],
+}));
 export const io = new Server(httpServer, {
   cors: {
     origin: "*",
