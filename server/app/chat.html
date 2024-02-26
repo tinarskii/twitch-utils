@@ -84,8 +84,8 @@
       }
 
       #log > div {
-          animation: fadeInRight .75s ease forwards, fadeOutRight 0.75s ease forwards;
-          -webkit-animation: fadeInRight .75s ease forwards, fadeOutRight 0.75s ease forwards;
+          animation: fadeInRight .75s ease forwards;
+          -webkit-animation: fadeInRight .75s ease forwards;
       }
 
       @keyframes fadeInRight {
@@ -96,17 +96,6 @@
           100% {
               opacity: 1;
               transform: translateX(0);
-          }
-      }
-
-      @keyframes fadeOutRight {
-          0% {
-              opacity: 1;
-              transform: translateX(0);
-          }
-          100% {
-              opacity: 0;
-              transform: translateX(100%);
           }
       }
   </style>
