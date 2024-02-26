@@ -198,7 +198,7 @@ export async function createListener() {
         }
       });
       io.emit("message", {
-        from: nickname ? `${user} (${nickname})` : user,
+        from: nickname ? `${msgObj.userInfo.displayName} (${nickname})` : msgObj.userInfo.displayName,
         message: newMessage,
         user: msgObj.userInfo,
         id: msgObj.id,
