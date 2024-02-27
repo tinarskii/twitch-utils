@@ -9,7 +9,8 @@ project.
 
 ## Reporting a Bug
 
-The `twitch-utils` team and community take all security bugs in `twitch-utils` seriously. Thank you for improving the security
+The `twitch-utils` team and community take all security bugs in `twitch-utils` seriously. Thank you for improving the
+security
 of `twitch-utils`. We appreciate your efforts and responsible disclosure and will make every effort to acknowledge your
 contributions.
 

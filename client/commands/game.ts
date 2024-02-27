@@ -27,11 +27,14 @@ export default {
     args: Array<string>,
   ) => {
     if (!args[0]) {
-      let currentGame = (await client.api.channels.getChannelInfoById(meta.channelID))!;
+      let currentGame = (await client.api.channels.getChannelInfoById(
+        meta.channelID,
+      ))!;
       await client.chat.say(
         meta.channel,
         `เกมปัจจุบันคือ ${currentGame.gameName}`,
       );
+      return;
     }
     // Get game id
     let game = await client.api.games.getGameByName(args.join(" "));

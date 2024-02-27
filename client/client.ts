@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { StaticAuthProvider } from "@twurple/auth";
+import { RefreshingAuthProvider } from "@twurple/auth";
 import {
   buildEmoteImageUrl,
   ChatClient,
@@ -10,11 +10,7 @@ import { readdirSync } from "fs";
 import pino from "pino";
 import { io } from "../server/server";
 import { join } from "node:path";
-import {
-  checkNickname,
-  isTwitchTokenValid,
-  refreshToken,
-} from "../helpers/twitch";
+import { checkNickname } from "../helpers/twitch";
 import * as process from "process";
 
 if (
@@ -25,6 +21,9 @@ if (
 ) {
   throw new Error("Missing environment variables");
 }
+
+process.env.EXPIRES_IN = "0";
+process.env.OBTAINMENT_TIMESTAMP = "0";
 
 export const logger = pino({
   transport: {
@@ -64,27 +63,32 @@ export const commands: CommandList = new Map();
 const prefix = "!";
 
 export async function createListener() {
-  const authProvider = new StaticAuthProvider(
-    process.env.CLIENT_ID!,
-    process.env.USER_ACCESS_TOKEN!,
-    [
-      "user:edit",
-      "user:read:email",
-      "chat:read",
-      "chat:edit",
-      "channel:moderate",
-      "moderation:read",
-      "moderator:manage:shoutouts",
-      "channel:manage:moderators",
-      "channel:manage:broadcast",
-      "channel:read:vips",
-      "channel:read:subscriptions",
-      "channel:manage:vips",
-    ],
-  );
+  const authProvider = new RefreshingAuthProvider({
+    clientId: process.env.CLIENT_ID!,
+    clientSecret: process.env.CLIENT_SECRET!,
+  });
+
+  authProvider.onRefresh(async (_, newTokenData) => {
+    process.env.REFRESH_TOKEN = newTokenData.refreshToken!;
+    process.env.USER_ACCESS_TOKEN = newTokenData.accessToken!;
+    process.env.EXPIRES_IN = String(newTokenData.expiresIn!);
+    process.env.OBTAINMENT_TIMESTAMP = String(newTokenData.obtainmentTimestamp);
+  });
+
+  await authProvider.addUserForToken({
+    accessToken: process.env.USER_ACCESS_TOKEN!,
+    refreshToken: process.env.REFRESH_TOKEN!,
+    expiresIn: Number(process.env.EXPIRES_IN!),
+    obtainmentTimestamp: Number(process.env.OBTAINMENT_TIMESTAMP!),
+  });
+
+  authProvider.addIntentsToUser(process.env.TW_ID!, ["chat"]);
 
   const apiClient = new ApiClient({ authProvider });
-  const chatClient = new ChatClient({ authProvider, channels: [process.env.TW_CHANNEL ?? "tinarskii"] });
+  const chatClient = new ChatClient({
+    authProvider,
+    channels: [process.env.TW_CHANNEL ?? "tinarskii"],
+  });
   chatClient.connect();
 
   // On Bot Connect
@@ -222,9 +226,4 @@ export async function createListener() {
   });
 }
 
-await refreshToken();
-if (await isTwitchTokenValid(process.env.USER_ACCESS_TOKEN!)) {
-  await createListener();
-} else {
-  throw new Error("[Tx] Invalid token");
-}
+await createListener();

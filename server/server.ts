@@ -11,10 +11,13 @@ import cors from "cors";
 const expressApp = express();
 expressApp.use(cors());
 
-const server = createServer({
-  cert: Bun.file("./server/server.crt"),
-  key: Bun.file("./server/server.key"),
-}, expressApp);
+const server = createServer(
+  {
+    cert: Bun.file("./server/server.crt"),
+    key: Bun.file("./server/server.key"),
+  },
+  expressApp,
+);
 export const io = new Server(server, {
   cors: {
     origin: "*",
