@@ -5,14 +5,14 @@
   "main": "index.ts",
   "scripts": {
     "start": "bun index.ts",
-    "start:watch": "bun index.ts --watch",
+    "start:watch": "bun --watch index.ts",
     "build": "tsc -p . && cp .env dist",
     "build:watch": "tsc -p . --watch",
     "dev": "conc --kill-others \"bun run build:watch\" \"bun run start:watch\"",
-    "lint": "eslint src --ext .ts",
-    "lint:fix": "eslint src --ext .ts --fix",
-    "prettier": "prettier --write src/**/*.{js,ts}",
-    "prettier:check": "prettier --check src/**/*.{js,ts}"
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "prettier": "prettier --write ./**/*.{js,ts}",
+    "prettier:check": "prettier --check ./**/*.{js,ts}"
   },
   "keywords": [
     "twitch-bot"
