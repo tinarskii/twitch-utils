@@ -71,10 +71,10 @@ app.get("/socket.io/socket.io.js", () => {
 app.listen(
   {
     port: process.env.PORT ?? 3000,
-    // tls: {
-    //   cert: Bun.file(...),
-    //   key: Bun.file(...),
-    // },
+    tls: {
+      cert: Bun.file("./server/server.crt"),
+      key: Bun.file("./server/server.key"),
+    },
   },
   ({ hostname, port }) => {
     logger.info(`[Elysia] Running on http://${hostname}:${port}`);
