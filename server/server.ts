@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
 import { db } from "../helpers/database";
 import { commands, logger } from "../client/client";
-import { createServer } from "node:http";
+import { createServer } from "node:https";
 import { Server, Socket } from "socket.io";
 import express from "express";
 import cors from "cors";
@@ -11,7 +11,10 @@ import cors from "cors";
 const expressApp = express();
 expressApp.use(cors());
 
-const server = createServer(expressApp);
+const server = createServer({
+  cert: Bun.file("./server/server.crt"),
+  key: Bun.file("./server/server.key"),
+}, expressApp);
 export const io = new Server(server, {
   cors: {
     origin: "*",
