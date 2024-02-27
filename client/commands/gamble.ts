@@ -30,7 +30,7 @@ export default {
     let amount = Math.trunc(parseInt(args[0])) || 1;
 
     // Check if amount is valid
-    if (isNaN(amount) || amount < 0) {
+    if ((isNaN(amount) || amount < 0) && args[0] !== "all") {
       await client.chat.say(meta.channel, `ขอใส่จำนวนนับนะครับ`);
       return;
     }
@@ -40,9 +40,13 @@ export default {
     // Check if user has enough money
     let stmt = db.prepare("SELECT money FROM users WHERE user = ?");
     let balance = stmt.get(meta.userID);
-    if (amount > balance.money) {
+    if ((amount > balance.money) && args[0] !== "all") {
       await client.chat.say(meta.channel, `เองมีตังไม่พอ`);
       return;
+    }
+
+    if (args[0] === "all") {
+      amount = balance.money;
     }
 
     // Win Condition

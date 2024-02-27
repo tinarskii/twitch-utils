@@ -10,7 +10,7 @@ export default {
     {
       name: "game",
       description: "The game you want to change to",
-      required: true,
+      required: false,
     },
   ],
   modsOnly: true,
@@ -26,6 +26,13 @@ export default {
     message: string,
     args: Array<string>,
   ) => {
+    if (!args[0]) {
+      let currentGame = (await client.api.channels.getChannelInfoById(meta.channelID))!;
+      await client.chat.say(
+        meta.channel,
+        `เกมปัจจุบันคือ ${currentGame.gameName}`,
+      );
+    }
     // Get game id
     let game = await client.api.games.getGameByName(args.join(" "));
     if (!game) {

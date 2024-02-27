@@ -44,6 +44,7 @@ export interface CommandList
       alias?: Array<string>;
       args?: Array<{ name: string; description: string; required: boolean }>;
       modsOnly?: boolean;
+      broadcasterOnly?: boolean;
       execute: (
         client: { chat: ChatClient; io: any; api: ApiClient },
         meta: {
@@ -119,11 +120,19 @@ export async function createListener() {
       let command = commands.get(commandName)!;
       if (!command) return;
 
+      // Check if user is a broadcaster
+      if (command?.broadcasterOnly) {
+        if (userID !== channelID) {
+          await chatClient.say(channel, `เฉพาะผู้ถือสิทธิเท่านั้น!!!!!!!!!!!!`);
+          return;
+        }
+      }
+
       // Check if user is a mod
       if (command?.modsOnly) {
         let mods = await apiClient.moderation.checkUserMod(channelID, userID);
         if (!mods && userID !== channelID) {
-          await chatClient.say(channel, `แกไม่มีสิทธิ!!!!!!!!!!!!`);
+          await chatClient.say(channel, `เฉพาะดาบเท่านั้น!!!!!!!!!!!!`);
           return;
         }
       }

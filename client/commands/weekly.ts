@@ -31,12 +31,13 @@ export default {
     if (lastWeekly) {
       let lastWeeklyDate = new Date(lastWeekly.lastWeekly);
       let currentDate = new Date();
-      if (
-        lastWeeklyDate.getDate() === currentDate.getDate() &&
-        lastWeeklyDate.getMonth() === currentDate.getMonth() &&
-        lastWeeklyDate.getFullYear() === currentDate.getFullYear()
-      ) {
-        await client.chat.say(meta.channel, `เองรับเงินไปแล้วสัปดาห์นี้แล้วนะ`);
+      let diff = Math.abs(currentDate.getTime() - lastWeeklyDate.getTime());
+      let diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+      if (diffDays < 7) {
+        await client.chat.say(
+          meta.channel,
+          `เองรับเงินไปแล้ว รออีก ${7 - diffDays} วัน`,
+        );
         return;
       }
     }
