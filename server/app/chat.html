@@ -126,7 +126,7 @@
 </script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    const socket = io(`https://my.tinarskii.com:3001`);
+    const socket = io(window.location.origin.endsWith(":3000") ? window.location.origin.replace("3000", "3001") : window.location.origin.concat(":3001"));
     socket.on("message", (data) => {
         const log = document.getElementById("log");
         const chat = document.createElement("div");

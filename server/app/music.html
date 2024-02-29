@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Music</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+</head>
+<body>
+<iframe id="player" type="text/html" width="640" height="390" frameborder="0"></iframe>
+</body>
+<script>
+  let queueList = window.localStorage.getItem("queueList") ? JSON.parse(window.localStorage.getItem("queueList")) : [];
+  let currentSong = null;
+
+  const socket = io(window.location.origin.endsWith(":3000") ? window.location.origin.replace("3000", "3001") : window.location.origin.concat(":3001"));
+  socket.on("songRequest", (data) => {
+      window.localStorage.setItem("queueList", JSON.stringify([...queueList, data]));
+      queueList = [...queueList, data];
+    if (!currentSong) {
+      currentSong = queueList.shift();
+      onYouTubeIframeAPIReady();
+    }
+  });
+
+  function onYouTubeIframeAPIReady() {
+    const player = new YT.Player('player', {
+      height: '390',
+      width: '640',
+      videoId: 'M7lc1UVf-VE',
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+
+  function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.ENDED) {
+      if (queueList.length) {
+        currentSong = queueList.shift();
+        event.target.loadVideoById(currentSong.id);
+      }
+    }
+  }
+</script>
+</html>

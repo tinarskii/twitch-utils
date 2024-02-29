@@ -58,7 +58,7 @@
   </style>
   <script src="/socket.io/socket.io.js"></script>
   <script>
-      const socket = io(`https://my.tinarskii.com:3001`);
+      const socket = io(window.location.origin.endsWith(":3000") ? window.location.origin.replace("3000", "3001") : window.location.origin.concat(":3001"));
       socket.on("feed", (data) => {
           const feedlist = document.querySelector(".feedlist");
           const feed = document.createElement("div");
