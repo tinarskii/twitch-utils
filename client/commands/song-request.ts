@@ -41,7 +41,7 @@ export default {
       return;
     }
 
-    client.io.to(meta.channelID).emit("songRequest", {
+    client.io.emit("songRequest", {
       user: meta.user,
       song: {
         title: songInfo.videoDetails.title,
