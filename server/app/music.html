@@ -43,7 +43,7 @@
     if (event.data === YT.PlayerState.ENDED) {
       if (queueList.length) {
         currentSong = queueList.shift();
-        event.target.loadVideoById(currentSong.id);
+        event.target.loadVideoById(currentSong.song.id);
       }
     }
   }
