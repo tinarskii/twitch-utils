@@ -21,7 +21,7 @@ export default {
   ) => {
     await client.chat.say(
       meta.channel,
-      `📚 ดูคำสั่งตรง Panels ข้างล่างเลยนะครับ becbecBetheart`,
+      `@${meta.user} 📚 ดูคำสั่งที่ https://github.com/tinarskii/twitch-utils?tab=readme-ov-file#chat-bot ได้เลยนะครับ becbecBetheart`,
     );
   },
 };
