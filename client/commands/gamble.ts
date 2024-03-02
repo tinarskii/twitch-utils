@@ -31,7 +31,7 @@ export default {
 
     // Check if amount is valid
     if ((isNaN(amount) || amount < 0) && args[0] !== "all") {
-      await client.chat.say(meta.channel, `ขอใส่จำนวนนับนะครับ`);
+      await client.chat.say(meta.channel, `@${meta.user} ขอใส่จำนวนนับนะครับ`);
       return;
     }
 
@@ -41,7 +41,7 @@ export default {
     let stmt = db.prepare("SELECT money FROM users WHERE user = ?");
     let balance = stmt.get(meta.userID);
     if (amount > balance.money && args[0] !== "all") {
-      await client.chat.say(meta.channel, `เองมีตังไม่พอ`);
+      await client.chat.say(meta.channel, `@${meta.user} เองมีตังไม่พอ`);
       return;
     }
 

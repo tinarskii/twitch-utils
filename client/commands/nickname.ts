@@ -46,13 +46,13 @@ export default {
     if (name === "--reset") {
       let stmt = db.prepare("UPDATE users SET nickname = ? WHERE user = ?");
       stmt.run(null, meta.userID);
-      await client.chat.say(meta.channel, `ชื่อเล่นถูกลบแล้ว`);
+      await client.chat.say(meta.channel, `@${meta.user} ชื่อเล่นถูกลบแล้ว`);
       return;
     }
 
     // Check if name is too long
     if (name.length > 32) {
-      await client.chat.say(meta.channel, `ชื่อยาวไป`);
+      await client.chat.say(meta.channel, `@${meta.user} ชื่อยาวไป`);
       return;
     }
 
@@ -68,7 +68,7 @@ export default {
     // Update name
     let stmt = db.prepare("UPDATE users SET nickname = ? WHERE user = ?");
     stmt.run(name, meta.userID);
-    await client.chat.say(meta.channel, `เปลี่ยนชื่อเป็น ${name}`);
+    await client.chat.say(meta.channel, `@${meta.user} เปลี่ยนชื่อเป็น ${name}`);
     client.io.emit("feed", {
       type: "normal",
       icon: "✍️",

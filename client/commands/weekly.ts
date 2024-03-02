@@ -54,6 +54,6 @@ export default {
       message: `System ➡ ${meta.user}`,
       action: `+750 KEEB`,
     });
-    await client.chat.say(meta.channel, `รับ 750 กีบ`);
+    await client.chat.say(meta.channel, `@${meta.user} รับ 750 กีบ`);
   },
 };

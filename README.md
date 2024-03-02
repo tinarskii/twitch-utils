@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://zelar.tinarskii.com/">
+  <a href="https://github.com/tinarskii/twitch-utils">
     <img src="docs/logo.png" />
     <h2 align="center">
       Tinarskii's Twitch Utils
@@ -40,26 +40,45 @@ expected if you are not using Bun.
 
 ### Chat bot
 
-- `Announce` - Announce a message to the chat
-- `Balance ` - Check your balance
-- `Daily   ` - Claim your daily reward
-- `Eat     ` - Chose a random food to eat
-- `Gamble  ` - Gamble your money
-- `Game    ` - Change stream's game
-- `Give    ` - Give money to another user
-- `Hate    ` - How much do you hate someone?
-- `Help    ` - Show help message
-- `Love    ` - How much do you love someone?
-- `Nickname` - Change your nickname (Linked with the overlay)
-- `Shoutout` - Shoutout a user
-- `Stomp   ` - Stomp on someone
-- `Stream  ` - Change stream's title
-- `Weekly  ` - Claim your weekly reward
+- Moderation
+    1. `Announce` - Announce a message to the chat
+    2. `Game    ` - Change stream's game
+    3. `Shoutout` - Shoutout a user
+    4. `Stream  ` - Change stream's title
+
+
+- Capitalism
+    1. `Balance ` - Check your balance
+    2. `Daily   ` - Claim your daily reward
+    3. `Gamble  ` - Gamble your money
+    4. `Give    ` - Give money to another user
+    5. `Weekly  ` - Claim your weekly reward
+
+
+- Miscellaneous
+    1. `Eat     ` - Chose a random food to eat
+    2. `Hate    ` - How much do you hate someone?
+    3. `Help    ` - Show help message
+    4. `Love    ` - How much do you love someone?
+    5. `Stomp   ` - Stomp on someone
+
+
+- Overlay & Customization
+    1. `Nickname` - Change your nickname (Linked with the chat overlay)
+
+
+- Song Request
+    1. `queue  ` - Show the music queue
+    2. `rm     ` - Remove a song from the queue
+    3. `skip   ` - Skip the current song
+    4. `sr     ` - Add a song to the queue
 
 ### Overlay
 
 - `Chat Overlay` - Show chat messages on the stream (Nickname command linked)
 - `Event Feed  ` - Show recent events on the stream (Linked with economic commands)
+- `Music Player` - Play music on the stream (Click now-playing box to hide the video)
+- `Music Queue ` - Show the music queue on the stream (Linked with the music player)
 
 ## 🛠️ Installation
 
@@ -91,6 +110,8 @@ CLIENT_SECRET= # Read FAQ to get your creditentials
 USER_ACCESS_TOKEN= # Read FAQ to get your creditentials
 REFRESH_TOKEN= # Read FAQ to get your creditentials
 TW_CHANNEL= # Your channel name
+TW_ID= # Your channel ID (You can get it from the Twitch API or this site: https://www.streamweasels.com/support/convert-twitch-username-to-user-id)
+NODE_ENV= # Set it to "production" if you are running the bot in production
 ```
 
 4. Start the bot
@@ -123,6 +144,12 @@ twitch token -u -s "user:edit user:read:email chat:read chat:edit channel:modera
 ```
 
 You will receive a user access token and a refresh token, add them to your `.env` file.
+
+### What's `server.crt` and `server.key` files?
+
+These files are used to run the webserver in HTTPS. If you want to use HTTPS, you can generate these files using OpenSSL
+or
+other tools. If you don't want to use HTTPS, you can remove the `server.crt` and `server.key` in `server/server.ts`.
 
 ### I couldn't install Bun in my system
 

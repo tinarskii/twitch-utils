@@ -24,7 +24,8 @@ export default {
     for (const user of leaderboard) {
       const index: number = leaderboard.indexOf(user);
       // Get user display name
-      let username = (await client.api.users.getUserById(user.user))!.displayName;
+      let username = (await client.api.users.getUserById(user.user))!
+        .displayName;
       message += `${index + 1}. ${username} - ${user.money}KEEB | `;
     }
     await client.chat.say(meta.channel, message);

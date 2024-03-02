@@ -39,7 +39,7 @@ export default {
     // Get game id
     let game = await client.api.games.getGameByName(args.join(" "));
     if (!game) {
-      await client.chat.say(meta.channel, `ไม่พบเกม ${args[0]}`);
+      await client.chat.say(meta.channel, `@${meta.user} ไม่พบเกม ${args[0]}`);
       return;
     }
 
@@ -48,6 +48,6 @@ export default {
       gameId: game.id,
     });
 
-    await client.chat.say(meta.channel, `เปลี่ยนเกมเป็น ${game.name} แล้ว!`);
+    await client.chat.say(meta.channel, `@${meta.user} เปลี่ยนเกมเป็น ${game.name} แล้ว!`);
   },
 };

@@ -28,35 +28,37 @@
 <body>
 <div id="player">
   <iframe
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+    frameborder="0"
+    height="315"
     id="playframe"
     src="https://www.youtube.com/embed/agPF9Eptt1s?autoplay=1&enablejsapi=1"
     width="560"
-    height="315"
-    frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen
   >
   </iframe>
 </div>
 
 <div class="flex flex-row gap-2 p-1" id="np">
   <img
-    src=""
-    id="cover" alt="Album art"
-    class="w-20 h-20 rounded-full object-cover animate-[spin_10s_linear_infinite] shadow-lg">
-  <div id="info-container" class="rounded-lg w-[275px]">
-    <div class="flex flex-col bg-black/50 backdrop-blur-lg text-white py-2 px-4 shadow-lg w-full h-full rounded-lg justify-center">
-      <h1 id="songTitle" class="text-xl font-extrabold truncate"></h1>
-      <h1 id="author" class="leading-none text-sm font-medium truncate"></h1>
+    alt="Album art"
+    class="w-20 h-20 rounded-full object-cover animate-[spin_10s_linear_infinite] shadow-lg" id="cover"
+    src="">
+  <div class="rounded-lg w-[275px]" id="info-container">
+    <div
+      class="flex flex-col bg-black/50 backdrop-blur-lg text-white py-2 px-4 shadow-lg w-full h-full rounded-lg justify-center">
+      <h1 class="text-xl font-extrabold truncate" id="songTitle"></h1>
+      <h1 class="leading-none text-sm font-medium truncate" id="author"></h1>
     </div>
   </div>
-  <div id="time-container" class="rounded-lg w-[275px]">
-    <div class="flex flex-col bg-[#3b3b3b] backdrop-blur-lg text-white py-2 px-4 shadow-lg w-full h-full rounded-lg justify-center">
+  <div class="rounded-lg w-[275px]" id="time-container">
+    <div
+      class="flex flex-col bg-[#3b3b3b] backdrop-blur-lg text-white py-2 px-4 shadow-lg w-full h-full rounded-lg justify-center">
       <div class="flex w-full justify-between">
-        <h1 id="currentTime" class="text-sm font-medium truncate">0:00</h1>
-        <h1 id="duration" class="text-sm font-medium truncate">0:00</h1>
+        <h1 class="text-sm font-medium truncate" id="currentTime">0:00</h1>
+        <h1 class="text-sm font-medium truncate" id="duration">0:00</h1>
       </div>
-      <progress id="progress" class="w-full h-2 bg-[#75797c] rounded-full" value="0" max="100"></progress>
+      <progress class="w-full h-2 bg-[#75797c] rounded-full" id="progress" max="100" value="0"></progress>
     </div>
   </div>
 
@@ -109,6 +111,15 @@
             playSong(currentSong.song.id);
         }
     });
+
+    socket.on("songSkip", (data) => {
+        queue = data;
+        if (queue.length > 0) {
+            currentSong = queue[0];
+            updateNowPlaying(queue[0].song);
+            playSong(currentSong.song.id);
+        }
+    }
 
     let player = document.getElementById("playframe");
     let ytPlayer;

@@ -36,7 +36,7 @@ export default {
         lastDailyDate.getMonth() === currentDate.getMonth() &&
         lastDailyDate.getFullYear() === currentDate.getFullYear()
       ) {
-        await client.chat.say(meta.channel, `เองรับเงินไปแล้ววันนี้แล้วนะ`);
+        await client.chat.say(meta.channel, `@${meta.user} เองรับเงินไปแล้ววันนี้แล้วนะ`);
         return;
       }
     }
@@ -47,7 +47,7 @@ export default {
     stmt = db.prepare("UPDATE users SET lastDaily = ? WHERE user = ?");
     stmt.run(Number(new Date()), meta.userID);
 
-    await client.chat.say(meta.channel, `รับ 100 กีบ`);
+    await client.chat.say(meta.channel, `@${meta.user} รับ 100 กีบ`);
     client.io.emit("feed", {
       type: "normal",
       icon: "☀️",

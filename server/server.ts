@@ -2,14 +2,14 @@ import { Elysia } from "elysia";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
 import { db } from "../helpers/database";
-import { commands, logger, SongInfo, songQueue } from "../client/client";
+import { commands, logger, songQueue } from "../client/client";
 import { createServer } from "node:https";
 import { Server, Socket } from "socket.io";
 import express from "express";
 import cors from "cors";
 
 const expressApp = express();
-expressApp.use(cors())
+expressApp.use(cors());
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -38,10 +38,10 @@ io.on("connection", (socket: Socket) => {
   });
   socket.on("songEnded", () => {
     songQueue.shift();
-  })
+  });
   socket.on("getQueue", () => {
     socket.emit("songQueue", songQueue);
-  })
+  });
 });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -71,6 +71,10 @@ app.get("/api/commands", () => {
   }
   return commandList;
 });
+
+app.get("/api/queue", () => {
+  return songQueue;
+});
 app.get("/feed", () => {
   return Bun.file(__dirname + "/app/feed.html");
 });
@@ -81,6 +85,10 @@ app.get("/chat", () => {
 app.get("/music", () => {
   return Bun.file(__dirname + "/app/music.html");
 });
+
+app.get("/queue", () => {
+  return Bun.file(__dirname + "/app/queue.html");
+})
 
 app.get("/socket.io/socket.io.js", () => {
   return Bun.file("./node_modules/socket.io/client-dist/socket.io.js");

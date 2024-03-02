@@ -37,6 +37,6 @@ export default {
       "หมูสับ",
     ];
     let food = foods[Math.floor(Math.random() * foods.length)];
-    await client.chat.say(meta.channel, `🍲 กิน ${food}`);
+    await client.chat.say(meta.channel, `@${meta.user} 🍲 กิน ${food}`);
   },
 };

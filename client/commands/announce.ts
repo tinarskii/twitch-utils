@@ -29,7 +29,7 @@ export default {
         message: args.join(" "),
       });
     } catch (e) {
-      await client.chat.say(meta.channel, `ไม่สามารถ announce ได้`);
+      await client.chat.say(meta.channel, `@${meta.user} ไม่สามารถ announce ได้`);
       return;
     }
   },

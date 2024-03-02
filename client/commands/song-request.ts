@@ -37,7 +37,7 @@ export default {
     const songInfo = await ytdl.getInfo(songURL);
 
     if (!songInfo) {
-      await client.chat.say(meta.channel, `ไม่เจอเพลง: ${song}`);
+      await client.chat.say(meta.channel, `@${meta.user} ไม่เจอเพลง: ${song}`);
       return;
     }
 
@@ -53,7 +53,10 @@ export default {
 
     songQueue.push(songData);
 
-    client.io.emit("songRequest", { index: songQueue.length - 1, queue: songQueue });
+    client.io.emit("songRequest", {
+      index: songQueue.length - 1,
+      queue: songQueue,
+    });
 
     await client.chat.say(
       meta.channel,
