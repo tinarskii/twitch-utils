@@ -1,8 +1,8 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList } from "../client";
+import { CommandList, songQueue } from "../client";
 import YouTube from "youtube-sr";
-import ytdl from "ytdl-core";
+import ytdl from "@distube/ytdl-core";
 
 export default {
   name: "song-request",
@@ -41,7 +41,7 @@ export default {
       return;
     }
 
-    client.io.emit("songRequest", {
+    let songData = {
       user: meta.user,
       song: {
         title: songInfo.videoDetails.title,
@@ -49,6 +49,15 @@ export default {
         thumbnail: songInfo.thumbnail_url,
         id: songInfo.videoDetails.videoId,
       },
-    });
+    };
+
+    songQueue.push(songData);
+
+    client.io.emit("songRequest", { index: songQueue.length - 1, queue: songQueue });
+
+    await client.chat.say(
+      meta.channel,
+      `@${meta.user} เพิ่มเพลง "${songInfo.videoDetails.title}" โดย ${songInfo.videoDetails.author.name} เป็นคิวที่ ${songQueue.length}`,
+    );
   },
 };

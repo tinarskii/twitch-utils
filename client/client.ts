@@ -59,7 +59,18 @@ export interface CommandList
     }
   > {}
 
+export interface SongInfo {
+  user: string;
+  song: {
+    title: string;
+    author: string;
+    thumbnail: string;
+    id: string;
+  };
+}
+
 export const commands: CommandList = new Map();
+export let songQueue: Array<SongInfo> = [];
 const prefix = "!";
 
 export async function createListener() {

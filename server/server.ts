@@ -2,19 +2,21 @@ import { Elysia } from "elysia";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
 import { db } from "../helpers/database";
-import { commands, logger } from "../client/client";
+import { commands, logger, SongInfo, songQueue } from "../client/client";
 import { createServer } from "node:https";
 import { Server, Socket } from "socket.io";
 import express from "express";
 import cors from "cors";
 
 const expressApp = express();
-expressApp.use(cors());
+expressApp.use(cors())
+
+const isProduction = process.env.NODE_ENV === "production";
 
 const server = createServer(
   {
-    cert: Bun.file("./server/server.crt"),
-    key: Bun.file("./server/server.key"),
+    cert: isProduction ? Bun.file("./server/server.crt") : "",
+    key: isProduction ? Bun.file("./server/server.key") : "",
   },
   expressApp,
 );
@@ -34,6 +36,9 @@ io.on("connection", (socket: Socket) => {
   socket.on("disconnect", () => {
     logger.info(`[Socket] ${socket.id} disconnected`);
   });
+  socket.on("songEnded", () => {
+    songQueue.shift();
+  })
 });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -82,8 +87,8 @@ app.listen(
   {
     port: process.env.PORT ?? 3000,
     tls: {
-      cert: Bun.file("./server/server.crt"),
-      key: Bun.file("./server/server.key"),
+      cert: isProduction ? Bun.file("./server/server.crt") : "",
+      key: isProduction ? Bun.file("./server/server.key") : "",
     },
   },
   ({ hostname, port }) => {
