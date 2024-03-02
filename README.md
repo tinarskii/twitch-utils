@@ -112,6 +112,7 @@ REFRESH_TOKEN= # Read FAQ to get your creditentials
 TW_CHANNEL= # Your channel name
 TW_ID= # Your channel ID (You can get it from the Twitch API or this site: https://www.streamweasels.com/support/convert-twitch-username-to-user-id)
 NODE_ENV= # Set it to "production" if you are running the bot in production
+OVERLAY_TOKEN= # A random string to authenticate the overlay (E.g. /chat-[your-token])
 ```
 
 4. Start the bot

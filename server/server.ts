@@ -7,6 +7,7 @@ import { createServer } from "node:https";
 import { Server, Socket } from "socket.io";
 import express from "express";
 import cors from "cors";
+import * as process from "process";
 
 const expressApp = express();
 expressApp.use(cors());
@@ -20,6 +21,15 @@ const server = createServer(
   },
   expressApp,
 );
+
+const randomToken = () => {
+  return Math.random().toString(36).substring(2, 15);
+}
+
+let token = process.env.OVERLAY_TOKEN || randomToken();
+
+logger.info(`[Elysia] Token: ${token}`);
+
 export const io = new Server(server, {
   cors: {
     origin: "*",
@@ -75,14 +85,14 @@ app.get("/api/commands", () => {
 app.get("/api/queue", () => {
   return songQueue;
 });
-app.get("/feed", () => {
+app.get(`/feed-${token}`, () => {
   return Bun.file(__dirname + "/app/feed.html");
 });
-app.get("/chat", () => {
+app.get(`/chat-${token}`, () => {
   return Bun.file(__dirname + "/app/chat.html");
 });
 
-app.get("/music", () => {
+app.get(`/music-${token}`, () => {
   return Bun.file(__dirname + "/app/music.html");
 });
 
