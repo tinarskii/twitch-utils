@@ -73,12 +73,14 @@
 
     socket.emit("getQueue");
 
-    updateNowPlaying({
-        id: "agPF9Eptt1s",
-        title: "Sad Flower",
-        author: "Reinizra",
-        thumbnail: "https://t2.genius.com/unsafe/425x425/https%3A%2F%2Fimages.genius.com%2F4042c49d68454420a6d354ab3a984265.1000x1000x1.jpg"
-    });
+    window.onload = () => {
+        updateNowPlaying({
+            id: "agPF9Eptt1s",
+            title: "Sad Flower",
+            author: "Reinizra",
+            thumbnail: "https://t2.genius.com/unsafe/425x425/https%3A%2F%2Fimages.genius.com%2F4042c49d68454420a6d354ab3a984265.1000x1000x1.jpg"
+        });
+    };
 
     function updateNowPlaying (song) {
         document.getElementById("songTitle").innerText = song.title;
@@ -119,7 +121,7 @@
             updateNowPlaying(queue[0].song);
             playSong(currentSong.song.id);
         }
-    }
+    });
 
     let player = document.getElementById("playframe");
     let ytPlayer;
