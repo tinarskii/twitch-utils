@@ -46,7 +46,7 @@ export default {
       song: {
         title: songInfo.videoDetails.title,
         author: songInfo.videoDetails.author.name,
-        thumbnail: songInfo.thumbnail_url,
+        thumbnail: songInfo.videoDetails.thumbnails[0].url,
         id: songInfo.videoDetails.videoId,
       },
     };

@@ -39,6 +39,9 @@ io.on("connection", (socket: Socket) => {
   socket.on("songEnded", () => {
     songQueue.shift();
   })
+  socket.on("getQueue", () => {
+    socket.emit("songQueue", songQueue);
+  })
 });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

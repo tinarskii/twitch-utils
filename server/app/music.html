@@ -4,6 +4,26 @@
   <meta charset="UTF-8">
   <title>Music</title>
   <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@100..900&display=swap');
+
+      * {
+          font-family: 'Noto Serif Thai', sans-serif;
+      }
+
+      progress::-webkit-progress-bar {
+          background-color: #75797c;
+      }
+
+      progress::-webkit-progress-value {
+          background-color: #ffffff;
+      }
+
+      progress::-moz-progress-bar {
+          background-color: #ffffff;
+      }
+  </style>
 </head>
 <body>
 <div id="player">
@@ -18,25 +38,83 @@
   >
   </iframe>
 </div>
+
+<div class="flex flex-row gap-2 p-1" id="np">
+  <img
+    src=""
+    id="cover" alt="Album art"
+    class="w-20 h-20 rounded-full object-cover animate-[spin_10s_linear_infinite] shadow-lg">
+  <div id="info-container" class="rounded-lg w-[275px]">
+    <div class="flex flex-col bg-black/50 backdrop-blur-lg text-white py-2 px-4 shadow-lg w-full h-full rounded-lg justify-center">
+      <h1 id="songTitle" class="text-xl font-extrabold truncate"></h1>
+      <h1 id="author" class="leading-none text-sm font-medium truncate"></h1>
+    </div>
+  </div>
+  <div id="time-container" class="rounded-lg w-[275px]">
+    <div class="flex flex-col bg-[#3b3b3b] backdrop-blur-lg text-white py-2 px-4 shadow-lg w-full h-full rounded-lg justify-center">
+      <div class="flex w-full justify-between">
+        <h1 id="currentTime" class="text-sm font-medium truncate">0:00</h1>
+        <h1 id="duration" class="text-sm font-medium truncate">0:00</h1>
+      </div>
+      <progress id="progress" class="w-full h-2 bg-[#75797c] rounded-full" value="0" max="100"></progress>
+    </div>
+  </div>
+
+</div>
 </body>
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
     let currentSong;
     let queue;
+    let playSeconds = 0;
     const socket = io(window.location.origin.endsWith(":3000") ? window.location.origin.replace("3000", "3001") : window.location.origin.concat(":3001"));
+
+    socket.emit("getQueue");
+
+    updateNowPlaying({
+        id: "agPF9Eptt1s",
+        title: "Sad Flower",
+        author: "Reinizra",
+        thumbnail: "https://t2.genius.com/unsafe/425x425/https%3A%2F%2Fimages.genius.com%2F4042c49d68454420a6d354ab3a984265.1000x1000x1.jpg"
+    });
+
+    function updateNowPlaying (song) {
+        document.getElementById("songTitle").innerText = song.title;
+        document.getElementById("author").innerText = song.author;
+        document.getElementById("cover").src = song.thumbnail;
+
+        document.getElementById("info-container").style.backgroundImage = `url(${song.thumbnail})`;
+        document.getElementById("info-container").style.backgroundSize = "cover";
+        document.getElementById("info-container").style.backgroundPosition = "center";
+    }
+
     socket.on("songRequest", (data) => {
         queue = data.queue;
         let index = data.index;
 
         if (index === 0) {
             currentSong = queue[0];
+            updateNowPlaying(queue[0].song);
             playSong(currentSong.song.id);
         }
     });
+
+    socket.on("songQueue", (data) => {
+        queue = data;
+
+        if (queue.length > 0) {
+            currentSong = queue[0];
+            console.log(currentSong.song);
+            updateNowPlaying(queue[0].song);
+            playSong(currentSong.song.id);
+        }
+    });
+
     let player = document.getElementById("playframe");
+    let ytPlayer;
 
     window.onYouTubeIframeAPIReady = () => {
-        new YT.Player("playframe");
+        ytPlayer = new YT.Player("playframe");
     };
 
     window.addEventListener("message", (e) => {
@@ -46,15 +124,37 @@
                 playerData.event === "infoDelivery" &&
                 playerData.info.playerState === YT.PlayerState.ENDED
             ) {
-                if (queue.length > 0) {
-                    queue.shift();
+                if (queue !== undefined) {
                     if (queue.length > 0) {
-                        currentSong = queue[0];
-                        playSong(currentSong.song.id);
+                        queue.shift();
+                        if (queue.length > 0) {
+                            currentSong = queue[0];
+                            updateNowPlaying(queue[0].song);
+                            playSong(currentSong.song.id);
+                        }
+                        socket.emit("songEnded");
                     }
-                    socket.emit("songEnded");
                 }
             }
+        }
+    });
+
+    setInterval(() => {
+        if (ytPlayer !== undefined) {
+            playSeconds = ytPlayer.getCurrentTime();
+            document.getElementById("currentTime").innerText = new Date(playSeconds * 1000).toISOString().substr(14, 5);
+            document.getElementById("duration").innerText = new Date(ytPlayer.getDuration() * 1000).toISOString().substr(14, 5);
+            document.getElementById("progress").value = (playSeconds / ytPlayer.getDuration()) * 100;
+        }
+    }, 1000);
+
+    // On click np, hide the player or show it
+    document.getElementById("np").addEventListener("click", () => {
+        let player = document.getElementById("player");
+        if (player.style.display === "none") {
+            player.style.display = "block";
+        } else {
+            player.style.display = "none";
         }
     });
 
