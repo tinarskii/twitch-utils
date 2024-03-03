@@ -48,6 +48,7 @@ io.on("connection", (socket: Socket) => {
   });
   socket.on("songEnded", () => {
     songQueue.shift();
+    socket.emit("songQueue", songQueue);
   });
   socket.on("getQueue", () => {
     socket.emit("songQueue", songQueue);

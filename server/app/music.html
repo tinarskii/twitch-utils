@@ -68,6 +68,62 @@
 <script>
     let currentSong;
     let queue;
+    let defaultSong = [
+        {
+            id: "agPF9Eptt1s",
+            title: "Sad Flower",
+            author: "Reinizra",
+            thumbnail: "https://t2.genius.com/unsafe/425x425/https%3A%2F%2Fimages.genius.com%2F4042c49d68454420a6d354ab3a984265.1000x1000x1.jpg"
+        },
+        {
+            id: "ax7krBKzmVI",
+            title: "Real Love",
+            author: "The Beatles",
+            thumbnail: "https://upload.wikimedia.org/wikipedia/en/4/4d/Real-love1.jpg"
+        },
+        {
+            id: "yYvkICbTZIQ",
+            title: "Paperback Writer",
+            author: "The Beatles",
+            thumbnail: "https://upload.wikimedia.org/wikipedia/en/0/0b/Paperrain.jpg"
+        },
+        {
+            id: "uLRiGX3L-kw",
+            title: "Lady Madonna",
+            author: "The Beatles",
+            thumbnail: "https://upload.wikimedia.org/wikipedia/en/d/d9/TheBeatles-LadyMadonnaUSVinylSleeve.png"
+        },
+        {
+            id: "M4vbJQ-MrKo",
+            title: "Hey Bulldog",
+            author: "The Beatles",
+            thumbnail: "https://upload.wikimedia.org/wikipedia/en/a/ac/TheBeatles-YellowSubmarinealbumcover.jpg"
+        },
+        {
+            id: "BGLGzRXY5Bw",
+            title: "Revolution",
+            author: "The Beatles",
+            thumbnail: "https://upload.wikimedia.org/wikipedia/en/2/2f/Revolution1968.png"
+        },
+        {
+            id: "KQetemT1sWc",
+            title: "Here Comes The Sun",
+            author: "The Beatles",
+            thumbnail: "https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg"
+        },
+        {
+            id: "FusIKjztap8",
+            title: "Here, There And Everywhere",
+            author: "The Beatles",
+            thumbnail: "https://upload.wikimedia.org/wikipedia/en/e/ec/Revolver_%28album_cover%29.jpg"
+        },
+        {
+            id: "TekplgRpW5g",
+            title: "君と約束した優しいあの場所まで",
+            author: "三枝夕夏 IN db",
+            thumbnail: "https://m.media-amazon.com/images/I/71UurD3CgML._UF1000,1000_QL80_.jpg"
+        },
+    ];
     let playSeconds = 0;
     const socket = io(window.location.origin.endsWith(":3000") ? window.location.origin.replace("3000", "3001") : window.location.origin.concat(":3001"));
 
@@ -111,6 +167,10 @@
             console.log(currentSong.song);
             updateNowPlaying(queue[0].song);
             playSong(currentSong.song.id);
+        } else {
+            let randomSong = defaultSong[Math.floor(Math.random() * defaultSong.length)];
+            updateNowPlaying(randomSong);
+            playSong(randomSong.id);
         }
     });
 
