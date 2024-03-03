@@ -1,6 +1,6 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList } from "../client";
+import { CommandList, logger } from "../client";
 
 export default {
   name: "announce",
@@ -22,13 +22,17 @@ export default {
       userID: string;
       commands: CommandList;
     },
+    _: string,
     args: Array<string>,
   ) => {
+    let message = args.join(" ");
+
     try {
       await client.api.chat.sendAnnouncement(meta.channelID, {
-        message: args.join(" "),
+        message,
       });
     } catch (e) {
+      logger.error(e);
       await client.chat.say(meta.channel, `@${meta.user} ไม่สามารถ announce ได้`);
       return;
     }

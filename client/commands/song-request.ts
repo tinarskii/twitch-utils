@@ -36,9 +36,30 @@ export default {
 
     const songInfo = await ytdl.getInfo(songURL);
 
+    // If song was not found
     if (!songInfo) {
       await client.chat.say(meta.channel, `@${meta.user} ไม่เจอเพลง: ${song}`);
       return;
+    }
+
+    // Check if the song is longer than 10 minutes
+    if (Number(songInfo.videoDetails.lengthSeconds) > 600) {
+      await client.chat.say(meta.channel, `@${meta.user} เพลงยาวเกิน 10 นาที ผมรับไม่ได้`);
+      return;
+    }
+
+    // Check if the video is not live
+    if (songInfo.videoDetails.isLiveContent) {
+      await client.chat.say(meta.channel, `@${meta.user} ต้องเป็นวิดิโอที่ไม่ได้ถูกถ่ายทอดสด`);
+      return;
+    }
+
+    // Check if it's already in queue
+    for (let i = 0; i < songQueue.length; i++) {
+      if (songQueue[i].song.id === songInfo.videoDetails.videoId) {
+        await client.chat.say(meta.channel, `@${meta.user} เพลงนี้อยู่ในคิวแล้ว (คิวที่ ${i + 1})`);
+        return;
+      }
     }
 
     let songData = {
