@@ -197,17 +197,7 @@
                 playerData.event === "infoDelivery" &&
                 playerData.info.playerState === YT.PlayerState.ENDED
             ) {
-                if (queue !== undefined) {
-                    if (queue.length > 0) {
-                        queue.shift();
-                        if (queue.length > 0) {
-                            currentSong = queue[0];
-                            updateNowPlaying(queue[0].song);
-                            playSong(currentSong.song.id);
-                        }
-                        socket.emit("songEnded");
-                    }
-                }
+                socket.emit("songEnded");
             }
         }
     });
