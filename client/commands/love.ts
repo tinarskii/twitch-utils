@@ -25,9 +25,9 @@ export default {
     message: string,
     args: Array<string>,
   ) => {
-    let lovePercent = Math.floor(Math.random() * 101);
-    client.io.emit("feed", {
-      type: "neutral",
+    let lovePercent = String(Math.floor(Math.random() * 101));
+    if (["ในหลวง", "พ่อหลวง", "พ่อ", "ร.๙", "รัชกาลที่ ๙", "king rama IX", "rama IX", "king"].includes(meta.user.toLowerCase())) lovePercent = "๙๙";
+    client.io.emit("feed", {      type: "neutral",
       icon: "💘",
       message: `${meta.user} ➡ ${args[0] || meta.user}`,
       action: `${lovePercent}%`,

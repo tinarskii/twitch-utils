@@ -141,7 +141,7 @@ After that, you can install [TwitchCLI](https://dev.twitch.tv/docs/cli/) and run
 access token:
 
 ```sh
-twitch token -u -s "user:edit user:read:email chat:read chat:edit channel:moderate moderation:read moderator:manage:shoutouts channel:manage:moderators channel:manage:broadcast channel:read:vips channel:read:subscriptions channel:manage:vips"
+twitch token -u -s "user:edit user:read:email chat:read chat:edit channel:moderate moderation:read moderator:manage:shoutouts moderator:manage:announcements channel:manage:moderators channel:manage:broadcast channel:read:vips channel:read:subscriptions channel:manage:vips"
 ```
 
 You will receive a user access token and a refresh token, add them to your `.env` file.
