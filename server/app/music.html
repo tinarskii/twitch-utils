@@ -66,163 +66,399 @@
 </body>
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-    let currentSong;
-    let queue;
-    let defaultSong = [
-        {
-            id: "agPF9Eptt1s",
-            title: "Sad Flower",
-            author: "Reinizra",
-            thumbnail: "https://t2.genius.com/unsafe/425x425/https%3A%2F%2Fimages.genius.com%2F4042c49d68454420a6d354ab3a984265.1000x1000x1.jpg"
-        },
-        {
-            id: "ax7krBKzmVI",
-            title: "Real Love",
-            author: "The Beatles",
-            thumbnail: "https://upload.wikimedia.org/wikipedia/en/4/4d/Real-love1.jpg"
-        },
-        {
-            id: "yYvkICbTZIQ",
-            title: "Paperback Writer",
-            author: "The Beatles",
-            thumbnail: "https://upload.wikimedia.org/wikipedia/en/0/0b/Paperrain.jpg"
-        },
-        {
-            id: "uLRiGX3L-kw",
-            title: "Lady Madonna",
-            author: "The Beatles",
-            thumbnail: "https://upload.wikimedia.org/wikipedia/en/d/d9/TheBeatles-LadyMadonnaUSVinylSleeve.png"
-        },
-        {
-            id: "M4vbJQ-MrKo",
-            title: "Hey Bulldog",
-            author: "The Beatles",
-            thumbnail: "https://upload.wikimedia.org/wikipedia/en/a/ac/TheBeatles-YellowSubmarinealbumcover.jpg"
-        },
-        {
-            id: "BGLGzRXY5Bw",
-            title: "Revolution",
-            author: "The Beatles",
-            thumbnail: "https://upload.wikimedia.org/wikipedia/en/2/2f/Revolution1968.png"
-        },
-        {
-            id: "KQetemT1sWc",
-            title: "Here Comes The Sun",
-            author: "The Beatles",
-            thumbnail: "https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg"
-        },
-        {
-            id: "FusIKjztap8",
-            title: "Here, There And Everywhere",
-            author: "The Beatles",
-            thumbnail: "https://upload.wikimedia.org/wikipedia/en/e/ec/Revolver_%28album_cover%29.jpg"
-        },
-        {
-            id: "TekplgRpW5g",
-            title: "君と約束した優しいあの場所まで",
-            author: "三枝夕夏 IN db",
-            thumbnail: "https://m.media-amazon.com/images/I/71UurD3CgML._UF1000,1000_QL80_.jpg"
-        },
+  let currentSong;
+  let queue;
+  let defaultSong =
+    [
+      {
+        "id": "NAEppFUWLfc",
+        "title": "The Sound of Silence",
+        "author": "Simon & Garfunkel",
+        "thumbnail": "https://i.ytimg.com/vi/NAEppFUWLfc/hqdefault.jpg",
+      },
+      {
+        "id": "tW7mDSOwJ6Y",
+        "title": "We Will Not Grow Old",
+        "author": "Lenka",
+        "thumbnail": "https://i.ytimg.com/vi/tW7mDSOwJ6Y/hqdefault.jpg",
+      },
+      {
+        "id": "u9Dg-g7t2l4",
+        "title": "The Sound of Silence",
+        "author": "Disturbed",
+        "thumbnail": "https://i.ytimg.com/vi/u9Dg-g7t2l4/hqdefault.jpg",
+      },
+      {
+        "id": "ztO3Rjqxcho",
+        "title": "Blue Skies",
+        "author": "Lenka",
+        "thumbnail": "https://i.ytimg.com/vi/ztO3Rjqxcho/hqdefault.jpg",
+      },
+      {
+        "id": "xxHAADKqG1A",
+        "title": "Toycar",
+        "author": "Tiger",
+        "thumbnail": "https://i.ytimg.com/vi/xxHAADKqG1A/hqdefault.jpg",
+      },
+      {
+        "id": "BWXWivwhi14",
+        "title": "Don't Leave Me (Ne Me Quitte Pas)",
+        "author": "Regina Spektor",
+        "thumbnail": "https://i.ytimg.com/vi/BWXWivwhi14/hqdefault.jpg",
+      },
+      {
+        "id": "QHpvlr_kG6U",
+        "title": "Trouble Is A Friend",
+        "author": "Lenka",
+        "thumbnail": "https://i.ytimg.com/vi/QHpvlr_kG6U/hqdefault.jpg",
+      },
+      {
+        "id": "elsh3J5lJ6g",
+        "title": "The Show",
+        "author": "Lenka",
+        "thumbnail": "https://i.ytimg.com/vi/elsh3J5lJ6g/hqdefault.jpg",
+      },
+      {
+        "id": "ca3bx9MF6K8",
+        "title": "รักคือฝันไป",
+        "author": "สาว สาว สาว",
+        "thumbnail": "https://i.ytimg.com/vi/ca3bx9MF6K8/hqdefault.jpg",
+      },
+      {
+        "id": "E8StyB1qGHk",
+        "title": "Sunflower",
+        "author": "Emma Stevens",
+        "thumbnail": "https://i.ytimg.com/vi/E8StyB1qGHk/hqdefault.jpg",
+      },
+      {
+        "id": "YTaWayUE5XA",
+        "title": "Yesterday Once More",
+        "author": "The Carpenters",
+        "thumbnail": "https://i.ytimg.com/vi/YTaWayUE5XA/hqdefault.jpg",
+      },
+      {
+        "id": "CSPT37V6RFI",
+        "title": "Two Birds On a Wire",
+        "author": "Regina Spektor",
+        "thumbnail": "https://i.ytimg.com/vi/CSPT37V6RFI/hqdefault.jpg",
+      },
+      {
+        "id": "TfNb6f9Leko",
+        "title": "A Place Called You",
+        "author": "Emma Stevens",
+        "thumbnail": "https://i.ytimg.com/vi/TfNb6f9Leko/hqdefault.jpg",
+      },
+      {
+        "id": "M11SvDtPBhA",
+        "title": "Party In The U.S.A.",
+        "author": "Miley Cyrus",
+        "thumbnail": "https://i.ytimg.com/vi/M11SvDtPBhA/hqdefault.jpg",
+      },
+      {
+        "id": "cVi9skf0vKk",
+        "title": "君を飾る花を咲かそう",
+        "author": "GARNET CROW",
+        "thumbnail": "https://i.ytimg.com/vi/cVi9skf0vKk/hqdefault.jpg",
+      },
+      {
+        "id": "eE9tV1WGTgE",
+        "title": "Everything At Once",
+        "author": "Lenka",
+        "thumbnail": "https://i.ytimg.com/vi/eE9tV1WGTgE/hqdefault.jpg",
+      },
+      {
+        "id": "EFbxebMRtoA",
+        "title": "Underwater",
+        "author": "Emma Stevens",
+        "thumbnail": "https://i.ytimg.com/vi/EFbxebMRtoA/hqdefault.jpg",
+      },
+      {
+        "id": "WY1lN0Esobw",
+        "title": "Feeling of Being (What Maisie Knew Version)",
+        "author": "Lucy Schwartz",
+        "thumbnail": "https://i.ytimg.com/vi/WY1lN0Esobw/hqdefault.jpg",
+      },
+      {
+        "id": "p62rfWxs6a8",
+        "title": "Samson",
+        "author": "Regina Spektor",
+        "thumbnail": "https://i.ytimg.com/vi/p62rfWxs6a8/hqdefault.jpg",
+      },
+      {
+        "id": "UtF6Jej8yb4",
+        "title": "The Nights",
+        "author": "Avicii",
+        "thumbnail": "https://i.ytimg.com/vi/UtF6Jej8yb4/hqdefault.jpg",
+      },
+      {
+        "id": "BWf-eARnf6U",
+        "title": "Heal The World",
+        "author": "Michael Jackson",
+        "thumbnail": "https://i.ytimg.com/vi/BWf-eARnf6U/hqdefault.jpg",
+      },
+      {
+        "id": "l0Bs_eaXaCo",
+        "title": "Defying Gravity",
+        "author": "Stephen Schwartz",
+        "thumbnail": "https://i.ytimg.com/vi/l0Bs_eaXaCo/hqdefault.jpg",
+      },
+      {
+        "id": "Q7_GLl9njD8",
+        "title": "夢みたあとで",
+        "author": "GARNET CROW",
+        "thumbnail": "https://i.ytimg.com/vi/Q7_GLl9njD8/hqdefault.jpg",
+      },
+      {
+        "id": "ax7krBKzmVI",
+        "title": "Real Love",
+        "author": "The Beatles",
+        "thumbnail": "https://i.ytimg.com/vi/ax7krBKzmVI/hqdefault.jpg",
+      },
+      {
+        "id": "faccKGHl5jM",
+        "title": "เวลาเธอยิ้ม",
+        "author": "Polycat",
+        "thumbnail": "https://i.ytimg.com/vi/faccKGHl5jM/hqdefault.jpg",
+      },
+      {
+        "id": "eKLvi7zh9bI",
+        "title": "Here To Stay",
+        "author": "Lenka",
+        "thumbnail": "https://i.ytimg.com/vi/eKLvi7zh9bI/hqdefault.jpg",
+      },
+      {
+        "id": "MMEpaVL_WsU",
+        "title": "Eet",
+        "author": "Regina Spektor",
+        "thumbnail": "https://i.ytimg.com/vi/MMEpaVL_WsU/hqdefault.jpg",
+      },
+      {
+        "id": "BJ8S_u1RhS4",
+        "title": "Live Like You're Dying",
+        "author": "Lenka",
+        "thumbnail": "https://i.ytimg.com/vi/BJ8S_u1RhS4/hqdefault.jpg",
+      },
+      {
+        "id": "kV_SzSfZ_ig",
+        "title": "วันนี้เมื่อปีก่อน",
+        "author": "Moderndog",
+        "thumbnail": "https://i.ytimg.com/vi/kV_SzSfZ_ig/hqdefault.jpg",
+      },
+      {
+        "id": "YTaWayUE5XA",
+        "title": "Yesterday Once More",
+        "author": "The Carpenters",
+        "thumbnail": "https://i.ytimg.com/vi/YTaWayUE5XA/hqdefault.jpg",
+      },
+      {
+        "id": "6E2hYDIFDIU",
+        "title": "My Way",
+        "author": "Frank Sinatra",
+        "thumbnail": "https://i.ytimg.com/vi/6E2hYDIFDIU/hqdefault.jpg",
+      },
+      {
+        "id": "cAe1lVDbLf0",
+        "title": "Across The Universe",
+        "author": "Rufus Wainwright",
+        "thumbnail": "https://i.ytimg.com/vi/cAe1lVDbLf0/hqdefault.jpg",
+      },
+      {
+        "id": "hTWKbfoikeg",
+        "title": "Smells Like Teen Spirit",
+        "author": "Nirvana",
+        "thumbnail": "https://i.ytimg.com/vi/hTWKbfoikeg/hqdefault.jpg",
+      },
+      {
+        "id": "lYoWuaw5nSk",
+        "title": "Riptide",
+        "author": "Vance Joy",
+        "thumbnail": "https://i.ytimg.com/vi/lYoWuaw5nSk/hqdefault.jpg",
+      },
+      {
+        "id": "p79GmLNLMrY",
+        "title": "My Heart Will Go On",
+        "author": "Celine Dion",
+        "thumbnail": "https://i.ytimg.com/vi/p79GmLNLMrY/hqdefault.jpg",
+      },
+      {
+        "id": "yrcnkKVRi68",
+        "title": "Everything's Okay",
+        "author": "Lenka",
+        "thumbnail": "https://i.ytimg.com/vi/yrcnkKVRi68/hqdefault.jpg",
+      },
+      {
+        "id": "ssBUgHLdrCA",
+        "title": "Here Comes the Sun",
+        "author": "The Beatles",
+        "thumbnail": "https://i.ytimg.com/vi/ssBUgHLdrCA/hqdefault.jpg",
+      },
+      {
+        "id": "wigqKfLWjvM",
+        "title": "Fidelity",
+        "author": "Regina Spektor",
+        "thumbnail": "https://i.ytimg.com/vi/wigqKfLWjvM/hqdefault.jpg",
+      },
+      {
+        "id": "SSbBvKaM6sk",
+        "title": "Song 2",
+        "author": "Blur",
+        "thumbnail": "https://i.ytimg.com/vi/SSbBvKaM6sk/hqdefault.jpg",
+      },
+      {
+        "id": "-pxRXP3w-sQ",
+        "title": "Laughing With",
+        "author": "Regina Spektor",
+        "thumbnail": "https://i.ytimg.com/vi/-pxRXP3w-sQ/hqdefault.jpg",
+      },
+      {
+        "id": "vDhUF1NnlKk",
+        "title": "Trouble Is a Friend (Remix)",
+        "author": "Lenka",
+        "thumbnail": "https://i.ytimg.com/vi/vDhUF1NnlKk/hqdefault.jpg",
+      },
+      {
+        "id": "AtteRD5bBNQ",
+        "title": "Amazing Grace",
+        "author": "Judy Collins",
+        "thumbnail": "https://i.ytimg.com/vi/AtteRD5bBNQ/hqdefault.jpg",
+      },
+      {
+        "id": "UDFqyEo2SjA",
+        "title": "忘れ咲き",
+        "author": "GARNET CROW",
+        "thumbnail": "https://i.ytimg.com/vi/UDFqyEo2SjA/hqdefault.jpg",
+      },
+      {
+        "id": "YHRvDo8rUoQ",
+        "title": "Forever Young",
+        "author": "Alphaville",
+        "thumbnail": "https://i.ytimg.com/vi/YHRvDo8rUoQ/hqdefault.jpg",
+      },
+      {
+        "id": "pCEUpVukAe8",
+        "title": "The Call",
+        "author": "Regina Spektor",
+        "thumbnail": "https://i.ytimg.com/vi/pCEUpVukAe8/hqdefault.jpg",
+      },
+      {
+        "id": "gepSM7_U2Is",
+        "title": "Feeling of Being",
+        "author": "Lucy Schwartz",
+        "thumbnail": "https://i.ytimg.com/vi/gepSM7_U2Is/hqdefault.jpg",
+      },
+      {
+        "id": "fczPlmz-Vug",
+        "title": "Us",
+        "author": "Regina Spektor",
+        "thumbnail": "https://i.ytimg.com/vi/fczPlmz-Vug/hqdefault.jpg",
+      },
+      {
+        "id": "fScLGrl2h_Y",
+        "title": "ลืม",
+        "author": "พราย ปฐมพร",
+        "thumbnail": "https://i.ytimg.com/vi/fScLGrl2h_Y/hqdefault.jpg",
+      },
+      {
+        "id": "naTge94MEPE",
+        "title": "Across The Universe",
+        "author": "Rufus Wainwright",
+        "thumbnail": "https://i.ytimg.com/vi/naTge94MEPE/hqdefault.jpg",
+      },
     ];
-    let playSeconds = 0;
-    const socket = io(window.location.origin.endsWith(":3000") ? window.location.origin.replace("3000", "3001") : window.location.origin.concat(":3001"));
+  let playSeconds = 0;
+  const socket = io(window.location.origin.endsWith(":3000") ? window.location.origin.replace("3000", "3001") : window.location.origin.concat(":3001"));
 
-    socket.emit("getQueue");
+  socket.emit("getQueue");
 
-    window.onload = () => {
-        // updateNowPlaying({
-        //     id: "agPF9Eptt1s",
-        //     title: "Sad Flower",
-        //     author: "Reinizra",
-        //     thumbnail: "https://t2.genius.com/unsafe/425x425/https%3A%2F%2Fimages.genius.com%2F4042c49d68454420a6d354ab3a984265.1000x1000x1.jpg"
-        // });
-    };
+  function updateNowPlaying (song) {
+    document.getElementById("songTitle").innerText = song.title;
+    document.getElementById("author").innerText = song.author;
+    document.getElementById("cover").src = song.thumbnail;
 
-    function updateNowPlaying (song) {
-        document.getElementById("songTitle").innerText = song.title;
-        document.getElementById("author").innerText = song.author;
-        document.getElementById("cover").src = song.thumbnail;
+    document.getElementById("info-container").style.backgroundImage = `url(${song.thumbnail})`;
+    document.getElementById("info-container").style.backgroundSize = "cover";
+    document.getElementById("info-container").style.backgroundPosition = "center";
+  }
 
-        document.getElementById("info-container").style.backgroundImage = `url(${song.thumbnail})`;
-        document.getElementById("info-container").style.backgroundSize = "cover";
-        document.getElementById("info-container").style.backgroundPosition = "center";
+  socket.on("songRequest", (data) => {
+    queue = data.queue;
+    let index = data.index;
+
+    if (index === 0) {
+      currentSong = queue[0];
+      updateNowPlaying(queue[0].song);
+      playSong(currentSong.song.id);
     }
+  });
 
-    socket.on("songRequest", (data) => {
-        queue = data.queue;
-        let index = data.index;
+  socket.on("songQueue", (data) => {
+    queue = data;
 
-        if (index === 0) {
-            currentSong = queue[0];
-            updateNowPlaying(queue[0].song);
-            playSong(currentSong.song.id);
-        }
-    });
-
-    socket.on("songQueue", (data) => {
-        queue = data;
-
-        if (queue.length > 0) {
-            currentSong = queue[0];
-            console.log(currentSong.song);
-            updateNowPlaying(queue[0].song);
-            playSong(currentSong.song.id);
-        } else {
-            let randomSong = defaultSong[Math.floor(Math.random() * defaultSong.length)];
-            updateNowPlaying(randomSong);
-            playSong(randomSong.id);
-        }
-    });
-
-    socket.on("songSkip", (data) => {
-        queue = data;
-        if (queue.length > 0) {
-            currentSong = queue[0];
-            updateNowPlaying(queue[0].song);
-            playSong(currentSong.song.id);
-        }
-    });
-
-    let player = document.getElementById("playframe");
-    let ytPlayer;
-
-    window.onYouTubeIframeAPIReady = () => {
-        ytPlayer = new YT.Player("playframe");
-    };
-
-    window.addEventListener("message", (e) => {
-        if (e.origin === "https://www.youtube.com") {
-            let playerData = JSON.parse(e.data);
-            if (
-                playerData.event === "infoDelivery" &&
-                playerData.info.playerState === YT.PlayerState.ENDED
-            ) {
-                socket.emit("songEnded");
-            }
-        }
-    });
-
-    setInterval(() => {
-        if (ytPlayer !== undefined) {
-            playSeconds = ytPlayer.getCurrentTime();
-            document.getElementById("currentTime").innerText = new Date(playSeconds * 1000).toISOString().substr(14, 5);
-            document.getElementById("duration").innerText = new Date(ytPlayer.getDuration() * 1000).toISOString().substr(14, 5);
-            document.getElementById("progress").value = (playSeconds / ytPlayer.getDuration()) * 100;
-        }
-    }, 1000);
-
-    // On click np, hide the player or show it
-    document.getElementById("np").addEventListener("click", () => {
-        let player = document.getElementById("player");
-        if (player.style.display === "none") {
-            player.style.display = "block";
-        } else {
-            player.style.display = "none";
-        }
-    });
-
-    function playSong (songID) {
-        player.src = `https://www.youtube.com/embed/${songID}?autoplay=1&enablejsapi=1`;
+    if (queue.length > 0) {
+      currentSong = queue[0];
+      console.log(currentSong.song);
+      updateNowPlaying(queue[0].song);
+      playSong(currentSong.song.id);
+    } else {
+      let randomSong = defaultSong[Math.floor(Math.random() * defaultSong.length)];
+      updateNowPlaying(randomSong);
+      playSong(randomSong.id);
     }
+  });
+
+  socket.on("songSkip", (data) => {
+    queue = data;
+    if (queue.length > 0) {
+      currentSong = queue[0];
+      updateNowPlaying(queue[0].song);
+      playSong(currentSong.song.id);
+    } else {
+      let randomSong = defaultSong[Math.floor(Math.random() * defaultSong.length)];
+      updateNowPlaying(randomSong);
+      playSong(randomSong.id);
+    }
+  });
+
+  let player = document.getElementById("playframe");
+  let ytPlayer;
+
+  window.onYouTubeIframeAPIReady = () => {
+    ytPlayer = new YT.Player("playframe");
+  };
+
+  window.addEventListener("message", (e) => {
+    if (e.origin === "https://www.youtube.com") {
+      let playerData = JSON.parse(e.data);
+      if (
+        playerData.event === "infoDelivery" &&
+        playerData.info.playerState === YT.PlayerState.ENDED
+      ) {
+        socket.emit("songEnded");
+      }
+    }
+  });
+
+  setInterval(() => {
+    if (ytPlayer !== undefined) {
+      playSeconds = ytPlayer.getCurrentTime();
+      document.getElementById("currentTime").innerText = new Date(playSeconds * 1000).toISOString().substr(14, 5);
+      document.getElementById("duration").innerText = new Date(ytPlayer.getDuration() * 1000).toISOString().substr(14, 5);
+      document.getElementById("progress").value = (playSeconds / ytPlayer.getDuration()) * 100;
+    }
+  }, 1000);
+
+  // On click np, hide the player or show it
+  document.getElementById("np").addEventListener("click", () => {
+    let player = document.getElementById("player");
+    if (player.style.display === "none") {
+      player.style.display = "block";
+    } else {
+      player.style.display = "none";
+    }
+  });
+
+  function playSong (songID) {
+    player.src = `https://www.youtube.com/embed/${songID}?autoplay=1&enablejsapi=1`;
+  }
 </script>
 </html>

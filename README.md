@@ -1,8 +1,8 @@
 <p align="center">
   <a href="https://github.com/tinarskii/twitch-utils">
-    <img src="docs/logo.png" />
+    <img src="" />
     <h2 align="center">
-      Tinarskii's Twitch Utils
+      Manao
     </h2>
   </a>
   <p align="center">
